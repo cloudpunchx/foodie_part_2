@@ -2,6 +2,9 @@ from flask import Flask
 from flask_cors import CORS
 from dbcreds import production_mode
 
+# to run code
+# flask --app app run
+
 app = Flask(__name__)
 
 if (production_mode == True):
