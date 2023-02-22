@@ -45,7 +45,7 @@ def post_client_login():
         return check_result
     email = request.json.get('email')
     password = request.json.get('password')
-    result = run_statement("CALL get_client_id(?,?)", [email, password])
+    result = run_statement("CALL client_login(?,?)", [email, password])
     if (type(result) == list):
         if result[0][0] == 1:
             return make_response(jsonify("Successfully logged in."), 200)
