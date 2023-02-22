@@ -5,9 +5,9 @@ from helpers.helpers import check_data
 
 # GET Client Profile   
 # probably should remove client id as arg because the token should be attached to an ID in the call? THE TOKEN grabs the ID to return personal profile?
-# NEED TO ASK MARK, FOR API CALL TO GET PROFILE WITH TOKEN IN HEADER, DOES THAT MEAN THE TOKEN IS VERIFIED THROUGH JAVASCRIPT BEFORE MAKING THE API CALL? OR DO I USE A JOIN TO GET THE TOKEN FROM LOGIN SESSION
+
 @app.get('/api/client')
-def get_client():
+def get_client_profile():
     """
     Expects 1 Arg:
     ClientId
@@ -30,6 +30,7 @@ def get_client():
 
 # Leaving off on Client POST - create_profile procedure, research uuid randomize token
 # post profile procedure as normal, return ID, then call 2nd procedure with id client id and add uuid from import
+
 @app.post('/api/client')
 def post_client():
     """
@@ -40,7 +41,7 @@ def post_client():
     """
     required_data = ['username', 'firstName', 'lastName', 'email', 'password']
     check_result = check_data(request.json, required_data)
-    if check_data != None:
+    if check_result != None:
         return check_result
     username = request.json.get('username')
     first_name = request.json.get('firstName')
@@ -53,6 +54,10 @@ def post_client():
         if result[0][0] == 1:
             return make_response(jsonify("Successfully created profile."), 200)
         elif result[0][0] == 0:
-            return make_response(jsonify(f"Post unsuccessful for candy, check candy ID and name."), 500)
+            return make_response(jsonify("Something went wrong, please try again."), 500)
     else:
         return make_response(jsonify(result), 500)
+    
+# Error for POST says the function returns None
+
+# Start POST for client-session then work on post_client since they need each other
