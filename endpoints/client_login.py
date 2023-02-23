@@ -25,7 +25,7 @@ def post_client_login():
     else:
         return make_response(jsonify(result), 500)
 
-# DELETE Client Login Sessions
+# DELETE Client Login Sessions, completed through 1 stored procedure
 @app.delete('/api/client-login')
 def delete_candy():
     """
