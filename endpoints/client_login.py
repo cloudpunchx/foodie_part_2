@@ -27,7 +27,7 @@ def post_client_login():
 
 # DELETE Client Login Sessions, completed through 1 stored procedure
 @app.delete('/api/client-login')
-def delete_candy():
+def delete_client_login():
     """
     Expects 1 Argument:
     Token
