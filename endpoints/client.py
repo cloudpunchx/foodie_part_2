@@ -25,10 +25,7 @@ def get_client_profile():
     else:
         return make_response(jsonify(result), 500)
 
-
-# Leaving off on Client POST - create_profile procedure, research uuid randomize token
-# post profile procedure as normal, return ID, then call 2nd procedure with id client id and add uuid from import
-
+# Post Client Profile, (Client Sign Up) then logs user session and created token in 1 stored procedure that calls another procedure.
 @app.post('/api/client')
 def post_client():
     """
@@ -60,6 +57,4 @@ def post_client():
     else:
         return make_response(jsonify(result), 500)
 
-# Error for POST says the function returns None
 
-# Start POST for client-session then work on post_client since they need each other
