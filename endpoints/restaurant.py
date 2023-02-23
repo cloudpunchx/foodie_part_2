@@ -12,7 +12,7 @@ def get_restaurants():
     """
     restaurantId = request.args.get('restaurantId')
     if (restaurantId == None):
-        restaurantId = 0
+        restaurantId = None
     keys = ["restaurantId", "name", "address", "bio", "city", "email", "phoneNum", "bannerUrl", "profileUrl"]
     result = run_statement('CALL get_restaurants(?)', [restaurantId])
     response = []
