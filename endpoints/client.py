@@ -4,21 +4,19 @@ from helpers.dbhelpers import run_statement
 from helpers.helpers import check_data
 
 # GET Client Profile   
-# probably should remove client id as arg because the token should be attached to an ID in the call? THE TOKEN grabs the ID to return personal profile?
-
 @app.get('/api/client')
 def get_client_profile():
     """
     Expects 1 Arg:
-    ClientId
+    token
     """
-    required_data = ['clientId']
+    required_data = ['token']
     check_result = check_data(request.json, required_data)
     if check_result != None:
         return check_result
-    clientId = request.json.get('clientId')
+    token = request.json.get('token')
     keys = ["clientId", "username", "firstName", "lastName", "email", "pictureUrl", "createdAt"]
-    result = run_statement('CALL get_client_profile(?)', [clientId])
+    result = run_statement('CALL get_client_profile(?)', [token])
     if(type(result) == list):
         for client in result:
             zipped = zip(keys, client)
@@ -55,9 +53,13 @@ def post_client():
             return make_response(jsonify("Successfully created profile."), 200)
         elif result[0][0] == 0:
             return make_response(jsonify("Something went wrong, please try again."), 500)
+    elif "client_UN_email" in result:
+        return make_response(jsonify("This email is already in use, please enter another email or click forgot password."), 409)
+    elif "client_UN_username" in result:
+        return make_response(jsonify("This username is already in use, please enter another username."), 409)
     else:
         return make_response(jsonify(result), 500)
-    
+
 # Error for POST says the function returns None
 
 # Start POST for client-session then work on post_client since they need each other

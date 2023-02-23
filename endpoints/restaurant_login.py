@@ -24,7 +24,7 @@ def post_restaurant_login():
             return make_response(jsonify("Something went wrong, please try again."), 500)
     else:
         return make_response(jsonify(result), 500)
-    
+
 # DELETE Restaurant Login Sessions, completed through 1 stored procedure
 @app.delete('/api/restaurant-login')
 def delete_restaurant():
