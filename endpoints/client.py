@@ -81,8 +81,10 @@ def patch_client():
     first_name = request.json.get('firstName')
     last_name = request.json.get('lastName')
     password = request.json.get('password')
+    salt = bcrypt.gensalt()
+    hash_result = bcrypt.hashpw(password.encode(), salt)
     pictureUrl = request.json.get('pictureUrl')
-    result = run_statement('CALL edit_client_profile(?,?,?,?,?,?)', [token, username, first_name, last_name, password, pictureUrl])
+    result = run_statement('CALL edit_client_profile(?,?,?,?,?,?)', [token, username, first_name, last_name, hash_result, pictureUrl])
     if (type(result) == list):
         if result[0][0] == 1:
             return make_response(jsonify("Successfully edited profile."), 200)
@@ -110,24 +112,4 @@ def delete_client():
         elif result[0][0] == 0:
             return make_response(jsonify("Error, please try again."), 400)
     else:
-        "There has been an unexpected error."
-
-# @app.delete('/api/client')
-# def delete_client():
-#     """
-#     Expects 1 Arg:
-#     token
-#     """
-#     required_data = ['token']
-#     check_result = check_data(request.json, required_data)
-#     if check_result != None:
-#         return check_result
-#     token = request.json.get('token')
-#     result = run_statement("CALL delete_client_profile(?)", [token])
-#     if (type(result) == list):
-#         if result[0][0] == 1:
-#             return make_response(jsonify("Successfully deleted account."), 200)
-#         elif result[0][0] == 0:
-#             return make_response(jsonify("Error, please try again."), 400)
-#     else:
-#         "There has been an unexpected error."
+        return make_response(jsonify("Error, please try again."), 400)
