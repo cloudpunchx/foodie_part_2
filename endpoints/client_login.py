@@ -59,7 +59,7 @@ from helpers.helpers import check_data
 #             else:
 #                 return make_response(jsonify('Something went wrong, please try again.'), 500)
 
-# THIS IS RETURNING A HASHED PW BUT IT DOESN'T MATCH THE INPUT PW, EVEN THOUGH I KNOW THEY'RE THE SAME
+# THIS IS RETURNING A HASHED PW BUT IT DOESN'T MATCH THE INPUT PW, EVEN THOUGH I KNOW THEY'RE THE
 @app.post('/api/client-login')
 def post_client_login():
     """
