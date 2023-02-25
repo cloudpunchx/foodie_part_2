@@ -5,27 +5,6 @@ from helpers.dbhelpers import run_statement
 from helpers.helpers import check_data
 
 # GET Client Profile   
-# @app.get('/api/client')
-# def get_client_profile():
-#     """
-#     Expects 1 Arg:
-#     token
-#     """
-#     required_data = ['token']
-#     check_result = check_data(request.json, required_data)
-#     if check_result != None:
-#         return check_result
-#     token = request.json.get('token')
-#     keys = ["clientId", "username", "firstName", "lastName", "email", "pictureUrl", "createdAt"]
-#     result = run_statement('CALL get_client_profile(?)', [token])
-#     if(type(result) == list):
-#         for client in result:
-#             zipped = zip(keys, client)
-#             client = (dict(zipped))
-#             return make_response(jsonify(client), 200)
-#     else:
-#         return make_response(jsonify('Something went wrong, please try again.'), 500)
-
 @app.get('/api/client')
 def get_client_profile():
     """
@@ -85,7 +64,6 @@ def post_client():
 
 # PATCH Client Profile
 # I intentionally left email out because you can't change it anyways
-# LEAVING OFF WITH THIS NOT WORKING
 @app.patch('/api/client')
 def patch_client():
     """
