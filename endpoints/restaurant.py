@@ -60,3 +60,34 @@ def create_restaurant():
         return make_response(jsonify("This username is already in use, please enter another username."), 409)
     else:
         return make_response(jsonify(result), 500)
+
+# PATCH Restaurant Profile
+@app.patch('/api/restaurant')
+def edit_restaurant_profile():
+    """
+    Expects 1 Arg:
+    token
+    Optional Args:
+    name, address, bio, city, email, phoneNum, bannerUrl, profileUrl
+    """
+    required_data = ['token']
+    check_result = check_data(request.json, required_data)
+    if check_result != None:
+        return check_result
+    token = request.json.get('token')
+    name = request.json.get('name')
+    address = request.json.get('address')
+    bio = request.json.get('bio')
+    city = request.json.get('city')
+    email = request.json.get('email')
+    phone_num = request.json.get('phoneNum')
+    banner_url = request.json.get('banner_url')
+    profile_url = request.json.get('profile_url')
+    result = run_statement('CALL edit_restaurant_profile(?,?,?,?,?,?,?,?,?)', [token, name, address, bio, city, email, phone_num, banner_url, profile_url])
+    if (type(result) == list):
+        if result[0][0] == 1:
+            return make_response(jsonify("Successfully edited profile."), 200)
+        elif result[0][0] == 0:
+            return make_response(jsonify("Something went wrong, please try again."), 500)
+    else:
+        return make_response(jsonify(result), 500)

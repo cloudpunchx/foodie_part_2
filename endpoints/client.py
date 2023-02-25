@@ -65,7 +65,7 @@ def post_client():
 # PATCH Client Profile
 # I intentionally left email out because you can't change it anyways
 @app.patch('/api/client')
-def patch_client():
+def edit_client_profile():
     """
     Expects 1 Arg:
     token
