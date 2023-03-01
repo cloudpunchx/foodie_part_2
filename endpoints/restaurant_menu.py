@@ -8,7 +8,7 @@ from helpers.helpers import check_data
 @app.get('/api/menu')
 def get_restaurant_menu():
     """
-    Optional Arg:
+    Optional:
     restaurantId
     """
     restaurantId = request.args.get('restaurantId')
@@ -23,3 +23,32 @@ def get_restaurant_menu():
         return make_response(jsonify(response), 200)
     else:
         return make_response(jsonify(response), 500)
+
+# POST Restaurant Menu Items
+@app.post('/api/menu')
+def add_restaurant_menu():
+    """
+    Expects 4 Args:
+    token, name, description, price
+    Optional:
+    imageUrl
+    """
+    required_data = ['token', 'name', 'description', 'price']
+    check_result = check_data(request.json, required_data)
+    if check_result != None:
+        return check_result
+    token = request.json.get('token')
+    name = request.json.get('name')
+    description = request.json.get('description')
+    price = request.json.get('price')
+    image_url = request.json.get('imageUrl')
+    result = run_statement("CALL add_menu_item(?,?,?,?,?)", [token, name, description, price, image_url])
+    if (type(result) == list):
+        if result[0][0] == 1:
+            return make_response(jsonify("Successfully added Item to Menu."), 200)
+        elif result[0][0] == 0:
+            return make_response(jsonify("Something went wrong, please try again."), 500)
+    elif "'restaurant_id' cannot be null" in result:
+        return make_response(jsonify("Error: Action Not Authorized"), 401)
+    else:
+        return make_response(jsonify(result), 500)

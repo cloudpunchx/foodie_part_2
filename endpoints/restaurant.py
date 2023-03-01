@@ -8,7 +8,7 @@ from helpers.helpers import check_data
 @app.get('/api/restaurant')
 def get_restaurants():
     """
-    Optional Arg:
+    Optional:
     restaurantId
     """
     restaurantId = request.args.get('restaurantId')
@@ -26,7 +26,7 @@ def get_restaurants():
 
 # POST Restaurant Profile (sign up)
 @app.post('/api/restaurant')
-def create_restaurant():
+def add_restaurant():
     """
     Expects 7 Args:
     name, address, bio, city, email, password, phoneNum
