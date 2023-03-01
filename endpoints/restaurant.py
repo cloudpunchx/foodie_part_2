@@ -93,6 +93,6 @@ def edit_restaurant_profile():
         if result[0][0] == 1:
             return make_response(jsonify("Successfully edited profile."), 200)
         elif result[0][0] == 0:
-            return make_response(jsonify("Something went wrong, please try again."), 500)
+            return make_response(jsonify("Something went wrong, please try again."), 400)
     else:
         return make_response(jsonify(result), 500)

@@ -52,3 +52,31 @@ def add_restaurant_menu():
         return make_response(jsonify("Error: Action Not Authorized"), 401)
     else:
         return make_response(jsonify(result), 500)
+
+# PATCH Restaurant Menu Items
+@app.patch('/api/menu')
+def edit_restaurant_menu():
+    """
+    Expects 2 Args:
+    token, menuId
+    Optional:
+    name, description, price, imageUrl
+    """
+    required_data = ['token', 'menuId']
+    check_result = check_data(request.json, required_data)
+    if check_result != None:
+        return check_result
+    token = request.json.get('token')
+    menuId = request.json.get('menuId')
+    name = request.json.get('name')
+    description = request.json.get('description')
+    price = request.json.get('price')
+    image_url = request.json.get('imageUrl')
+    result = run_statement("CALL edit_menu_item(?,?,?,?,?,?)", [token, menuId, name, description, price, image_url])
+    if (type(result) == list):
+        if result[0][0] == 1:
+            return make_response(jsonify("Successfully edited menu item."), 200)
+        elif result[0][0] == 0:
+            return make_response(jsonify(f"Error: Action Not Authorized, you do not own Menu Item {menuId}."), 403)
+    else:
+        return make_response(jsonify(result), 500)
