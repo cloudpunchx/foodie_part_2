@@ -54,7 +54,6 @@ def add_restaurant_menu():
         return make_response(jsonify(result), 500)
 
 # PATCH Restaurant Menu Items
-# LEAVING OFF ON TRYING TO GET API CALL WORKING, ISSUES WITH DECIMAL
 @app.patch('/api/menu')
 def edit_restaurant_menu():
     """
@@ -78,11 +77,13 @@ def edit_restaurant_menu():
         if result[0][0] == 1:
             return make_response(jsonify("Successfully edited menu item."), 200)
         elif result[0][0] == 0:
-            return make_response(jsonify(result), 403)
+            return make_response(jsonify(f"Error: Action Not Authorized, you do not own Menu Item {menuId}."), 403)
+    elif "menu_item_PK_price_format" in result:
+        return make_response(jsonify(f"Error: Price must be in __.__ format."), 400)
     else:
         return make_response(jsonify(result), 500)
     
-    # return make_response(jsonify(f"Error: Action Not Authorized, you do not own Menu Item {menuId}."), 403)
+
 
 # DELETE Restaurant Menu Items
 @app.delete('/api/menu')
