@@ -116,6 +116,6 @@ def delete_client():
         if result[0][0] == 1:
             return make_response(jsonify("Successfully deleted account."), 200)
         elif result[0][0] == 0:
-            return make_response(jsonify("Error, please try again."), 400)
+            return make_response(jsonify("An unexpected error has occurred, please try again."), 400)
     else:
-        return make_response(jsonify("Error, please try again."), 400)
+        return make_response(jsonify("An unexpected error has occurred, please try again."), 500)
