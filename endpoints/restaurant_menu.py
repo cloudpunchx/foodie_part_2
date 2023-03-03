@@ -82,8 +82,6 @@ def edit_restaurant_menu():
         return make_response(jsonify(f"Error: Price must be in __.__ format."), 400)
     else:
         return make_response(jsonify(result), 500)
-    
-
 
 # DELETE Restaurant Menu Items
 @app.delete('/api/menu')
