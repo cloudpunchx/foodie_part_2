@@ -1,5 +1,4 @@
 from app import app
-import bcrypt
 from flask import make_response, jsonify, request
 from helpers.dbhelpers import run_statement
 from helpers.helpers import check_data
@@ -77,7 +76,7 @@ def edit_restaurant_menu():
         if result[0][0] == 1:
             return make_response(jsonify("Successfully edited menu item."), 200)
         elif result[0][0] == 0:
-            return make_response(jsonify(f"Error: Action Not Authorized, you do not own Menu Item {menuId}."), 403)
+            return make_response(jsonify("Error: Something went wrong, the item was not updated."), 400)
     elif "menu_item_PK_price_format" in result:
         return make_response(jsonify(f"Error: Price must be in __.__ format."), 400)
     else:
