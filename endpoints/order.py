@@ -59,14 +59,6 @@ def create_order():
     else:
         return make_response(jsonify(result), 500)
 
-
-
-
-
-
-# HOW TO WRITE 'IF' STATEMENT FOR 'IF TOKEN MATCHES RESTAURANT SESSION DO x' ELSE IF TOKEN MATCHES CLIENT SESSION DO x'
-# IDEA: INSTEAD OF IF TOKEN, IF CANCELORDER, THEN CHECK TOKEN AGAINST CLIENT AND OPPOSITE FOR RESTAURANT
-# need to test procedure 
 # PATCH Order 
 @app.patch('/api/order')
 def update_order_status():
@@ -85,10 +77,15 @@ def update_order_status():
     token = request.json.get('token')
     orderId = request.json.get('orderId')
     cancelOrder = request.json.get('cancelOrder')
+    if (cancelOrder == ""):
+        cancelOrder = "0"
     confirmOrder = request.json.get('confirmOrder')
+    if (confirmOrder == ""):
+        confirmOrder = "0"
     completeOrder = request.json.get('completeOrder')
+    if (completeOrder == ""):
+        completeOrder = "0"
     result = run_statement("CALL update_order_status(?,?,?,?,?)", [token, orderId, cancelOrder, confirmOrder, completeOrder])
-
     if (type(result) == list):
         if result[0][0] == 1:
             return make_response(jsonify("Successfully Updated Order Status."), 200)
@@ -98,12 +95,6 @@ def update_order_status():
         return make_response(jsonify(result), 500)
 
 
-    # post order: 
-    # procedure that creates order, attaches order to restaurant and person
-    # returns the order ID
-    # need that in next steps
-    # then use 2nd procedure, add single item to an order, add 1 row to the order item table (takes order id and item id, maps one to the other)
-    # with those 2 procedures, run a loop thru items array that has numbers of items (after you created the order, iterate through array and add items to order)
 
     # back end deployment and modify apache to new url
     # START WITH STEP 2 ON THE LINKED IN FILE HE SENT
