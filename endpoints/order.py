@@ -93,19 +93,3 @@ def update_order_status():
             return make_response(jsonify("Error: Order Status was not updated, please try again."), 500)
     else:
         return make_response(jsonify(result), 500)
-
-
-
-    # back end deployment and modify apache to new url
-    # START WITH STEP 2 ON THE LINKED IN FILE HE SENT
-    # SINCE I bought a domain and I want to use a bunch of sub domains, foodie.cloudpunch.com
-    # to avoid the need for a new certificate every time you set up a sub domain, you can generate a wild card certificate, you can put anything in the subdomain and it will be captured in the certificate
-    # so generate 1 certificate, and you can use it in the path of the main url and sub domain
-    # (certificates expire every 3 months so doing 1 cert for all is way easier)
-    # go through DNS challenge, you prove to certbot that you are the owner of all subdomains to your domain
-    # add a new record to your DNS handler and essentially say, acme challenge (add dns txt record under domain name then confirm)
-    # TXT record can have anything in it, usually its used for dns challenges. You are telling certbot I am able to generate this info in this custom domain name, and this means that I own the whole domain
-    # the chrontab might not work, depends on the policy of certbot (makes sure you dont have to manually go back and renew it every time - last step, hers is set for 1nce a day)
-
-
-    # SKIP DOCUMENT ROOT IN APACHE CONFIG ** if you can't, just create an Empty folder (you can call it foodiefront end for later use) with nothing in it (in var/www), point it to there, we don't have a front end

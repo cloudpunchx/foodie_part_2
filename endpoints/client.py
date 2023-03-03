@@ -28,7 +28,6 @@ def get_client_profile():
     else:
         return make_response(jsonify('Something went wrong, please try again.'), 500)
 
-# MIGHT HAVE TO FIX THE UN_RESULT AT BOTTOM SINCE IT COMES AFTER 2ND PROCEDURE
 # POST Client Profile, (Client Sign Up) then logs user session
 @app.post('/api/client')
 def post_client():
