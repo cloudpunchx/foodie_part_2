@@ -68,9 +68,17 @@ def edit_restaurant_menu():
     token = request.json.get('token')
     menuId = request.json.get('menuId')
     name = request.json.get('name')
+    if (name == ""):
+        name = None
     description = request.json.get('description')
+    if (description == ""):
+        description = None
     price = request.json.get('price')
+    if (price == ""):
+        price = None
     image_url = request.json.get('imageUrl')
+    if (image_url == ""):
+        image_url = None
     result = run_statement("CALL edit_menu_item(?,?,?,?,?,?)", [token, menuId, name, description, price, image_url])
     if (type(result) == list):
         if result[0][0] == 1:
