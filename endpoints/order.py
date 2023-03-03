@@ -3,18 +3,7 @@ from flask import make_response, jsonify, request
 from helpers.dbhelpers import run_statement
 from helpers.helpers import check_data
 
-    # GET
-    #Run procedure, either get ALL (one for restaurant, one for customer algorithm is the same)
-    # run in either pass to it an order id and it only retrieves the single order,
-    # or retrieve all orders that belong to either client or restaurant
-    # with optional params, have the parameter declared in procedure regardless, if you don't want it active, pass null to it, in the procedure
-    # if the order id input is = null, then get all orders
-    # if its not null then run select with the param 
-    # since select will have multi rows for the same order, ORDER BY order Id (id of the orders table) ASC OR DESC doesn't matter (append an item to items array)
-    # procedure will return them in separate rows but we need to group them together (one object for order #5 with a list that holds all the items, iterate and double check, if you changed an order)
-
-# Currently WORKING for client GET with and without param OrderId
-# GET Client ONLY Order Information with optional OrderId
+# GET Orders
 @app.get('/api/order')
 def get_client_order_information():
     """
@@ -31,7 +20,7 @@ def get_client_order_information():
     orderId = request.args.get('orderId')
     if (orderId == None):
         orderId = None
-    keys = ["orderId", "clientId", "restaurantId", "is_confirmed", "is_complete", "is_cancelled", "created_at"]
+    keys = ["orderId", "clientId", "restaurantId", "is_confirmed", "is_complete", "is_cancelled", "created_at", "item"]
     response = []
     result = run_statement('CALL get_orders(?,?)', [token, orderId])
     if(type(result) == list):
@@ -41,33 +30,6 @@ def get_client_order_information():
     else:
         return make_response(jsonify(response), 500)
 
-
-
-# NOT TESTED:
-# GET Order Information
-# @app.get('/api/order')
-# def get_order_information():
-#     """
-#     Expects Arg:
-#     token
-#     Optional:
-#     orderId
-#     """
-#     required_data = ['token']
-#     check_result = check_data(request.json, required_data)
-#     if check_result != None:
-#         return check_result
-#     token = request.json.get('token')
-#     orderId = request.args.get('orderId')
-#     keys = ["orderId", "clientId", "restaurantId", "is_confirmed", "is_complete", "is_cancelled", "created_at"]
-#     response = []
-#     result = run_statement('CALL get_orders(?,?)', [token, orderId])
-#     if(type(result) == list):
-#         for order in result:
-#             response.append(dict(zip(keys, order)))
-#         return make_response(jsonify(response), 200)
-#     else:
-#         return make_response(jsonify(response), 500)
 
 
     # post order: 
